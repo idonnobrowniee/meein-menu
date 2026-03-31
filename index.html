@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIIN Hair Salon - Price Menu</title>
+<style>
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #ffffff;
+    padding: 35px 45px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #2c2c2c, #7a6243, #2c2c2c);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d4c5a9;
+  }
+
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2c2c2c;
+    letter-spacing: 8px;
+    margin-bottom: 8px;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: #d4c5a9;
+    letter-spacing: 3px;
+  }
+
+  .category {
+    margin-bottom: 22px;
+  }
+
+  .category-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #2c2c2c;
+    padding-bottom: 10px;
+  }
+
+  .category-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2c2c2c;
+    letter-spacing: 4px;
+  }
+
+  .category-note {
+    font-size: 15px;
+    color: #7a6243;
+    font-weight: 500;
+  }
+
+  .category-short {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 400;
+    color: #555;
+    letter-spacing: 0.5px;
+  }
+
+  .col-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 6px 8px;
+    gap: 0;
+  }
+
+  .col-header span {
+    width: 100px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #7a6243;
+    letter-spacing: 1px;
+  }
+
+  .col-header .col-original {
+    width: 80px;
+  }
+
+  /* 메뉴 아이템 */
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 7px 8px;
+    transition: background 0.2s;
+  }
+
+  .menu-item:hover {
+    background: #faf8f5;
+  }
+
+  .item-name {
+    font-size: 22px;
+    color: #333;
+    font-weight: 500;
+    letter-spacing: 1px;
+    flex: 1;
+  }
+
+  /* page1: justify space-between */
+  .page1 .menu-item {
+    justify-content: space-between;
+  }
+
+  .page1 .item-name {
+    font-size: 20px;
+    flex: unset;
+  }
+
+  .page1 .item-price {
+    width: auto;
+    text-align: right;
+    font-size: 21px;
+  }
+
+  .item-price {
+    width: 100px;
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+    color: #2c2c2c;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  .item-price .won {
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+    margin-left: 2px;
+  }
+
+  .item-price.premium {
+    color: #7a6243;
+  }
+
+  .item-price-original {
+    width: 80px;
+    text-align: center;
+    font-size: 21px;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+    text-decoration: line-through;
+    text-decoration-color: #999;
+  }
+
+  /* page4 specific */
+  .page4 .item-name {
+    font-size: 21px;
+    letter-spacing: 0.5px;
+  }
+
+  .page4 .item-price {
+    font-size: 21px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px dashed #d4c5a9;
+    margin: 10px 8px;
+  }
+
+  .page3 .divider {
+    margin: 16px 8px;
+  }
+
+  .page4 .divider {
+    margin: 14px 8px;
+  }
+
+  .sub-note {
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #7a6243;
+    font-weight: 500;
+  }
+
+  /* 클리닉 설명 (page1) */
+  .clinic-desc {
+    margin-top: 10px;
+    padding: 16px 20px;
+    background: #faf8f5;
+    border-left: 3px solid #7a6243;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .clinic-desc .desc-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 6px;
+  }
+
+  .clinic-desc .desc-text {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  /* 프리미엄 케어펌 설명 (page2) */
+  .perm-desc {
+    margin-top: 12px;
+    padding: 14px 20px;
+    background: #faf8f5;
+    border-left: 3px solid #7a6243;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .perm-desc .desc-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 6px;
+  }
+
+  .perm-desc .desc-text {
+    font-size: 17px;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  /* 기장추가 안내 */
+  .length-notice {
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: #faf8f5;
+    border-left: 3px solid #7a6243;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .length-notice .notice-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7a6243;
+    margin-bottom: 8px;
+  }
+
+  .length-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+    max-width: 420px;
+  }
+
+  .length-grid .length-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #7a6243;
+    gap: 10px;
+  }
+
+  .length-grid .length-item span:last-child {
+    font-weight: 600;
+    color: #7a6243;
+  }
+
+  /* info-box */
+  .info-box {
+    margin-top: 18px;
+    padding: 14px 20px;
+    background: #faf8f5;
+    border-left: 3px solid #7a6243;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .page3 .info-box {
+    margin-top: 30px;
+  }
+
+  .page4 .info-box {
+    margin-top: 30px;
+  }
+
+  .info-box .info-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 6px;
+  }
+
+  .info-box .info-text {
+    font-size: 17px;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  .page3 .info-box .info-text {
+    font-size: 15px;
+  }
+
+  /* notice-box (page3) */
+  .notice-box {
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: #faf8f5;
+    border-left: 3px solid #7a6243;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .notice-box .notice-text {
+    font-size: 17px;
+    font-weight: 500;
+    color: #7a6243;
+    line-height: 1.7;
+  }
+
+  .bottom-decor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #2c2c2c, #7a6243, #2c2c2c);
+  }
+
+  @media print {
+    body {
+      background: white;
+      padding: 0;
+      gap: 0;
+    }
+    .page {
+      box-shadow: none;
+      padding: 20px 30px;
+      min-height: auto;
+    }
+    .page::before {
+      position: relative;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .menu-item:hover {
+      background: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: CUT / DRY / CLINIC -->
+<div class="page page1">
+  <div class="header">
+    <h1>PRICE MENU</h1>
+    <p>미인헤어샵</p>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">CUT</span>
+      <span class="category-note">스캘프컷 + 20,000</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">앞머리컷</span>
+      <span class="item-price">5,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">사이드뱅컷</span>
+      <span class="item-price">8,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">남성컷</span>
+      <span class="item-price">15,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">여성컷</span>
+      <span class="item-price">18,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">디자인컷</span>
+      <span class="item-price">20,000<span class="won">원</span></span>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">DRY</span>
+      <span class="category-note">샴푸추가 + 5,000</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">샴푸 Only</span>
+      <span class="item-price">10,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">스타일링</span>
+      <span class="item-price">15,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">베이직드라이</span>
+      <span class="item-price">15,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">아이롱드라이</span>
+      <span class="item-price">20,000<span class="won">원</span></span>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">CLINIC</span>
+      <span class="category-note">컷추가 + 5,000</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">모발클리닉</span>
+      <span class="item-price">50,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">두피클리닉</span>
+      <span class="item-price">30,000<span class="won">원</span></span>
+    </div>
+    <div class="clinic-desc">
+      <div class="desc-title">유/수분 클리닉</div>
+      <div class="desc-text">큐티클의 녹거나 갈라짐을 완화하여 부드러움과 차분함을 줍니다.</div>
+    </div>
+  </div>
+
+  <div class="bottom-decor"></div>
+</div>
+
+<!-- PAGE 2: PERM -->
+<div class="page page2">
+  <div class="header">
+    <h1>PRICE MENU</h1>
+    <p>미인헤어샵</p>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">PERM</span>
+      <span class="category-note">컷추가 + 10,000</span>
+      <span class="category-short">기본 Short 기장 기준 가격입니다.</span>
+    </div>
+
+    <div class="col-header">
+      <span>베이직</span>
+      <span>프리미엄</span>
+    </div>
+
+    <div class="menu-item">
+      <span class="item-name">일반펌</span>
+      <span class="item-price">50.-</span>
+      <span class="item-price premium">60.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">열펌</span>
+      <span class="item-price">60.-</span>
+      <span class="item-price premium">70.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">매직</span>
+      <span class="item-price">80.-</span>
+      <span class="item-price premium">100.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">볼륨매직</span>
+      <span class="item-price">100.-</span>
+      <span class="item-price premium">120.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">매직세팅</span>
+      <span class="item-price">120.-</span>
+      <span class="item-price premium">140.-</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="menu-item">
+      <span class="item-name">앞머리펌</span>
+      <span class="item-price">25,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">앞머리열펌</span>
+      <span class="item-price">35,000~</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">뿌리부분펌</span>
+      <span class="item-price">35,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">뿌리전체펌</span>
+      <span class="item-price">50,000<span class="won">원</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">다운펌</span>
+      <span class="item-price">20,000~</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="menu-item">
+      <span class="item-name">복구매직펌</span>
+      <span class="item-price">150,000~</span>
+    </div>
+
+    <div class="sub-note">+ 클리닉추가 30,000 / 50,000</div>
+
+    <div class="perm-desc">
+      <div class="desc-title">프리미엄 케어펌</div>
+      <div class="desc-text">손상모에 부족한 단백질을 채워주어 안정된 펌시술로 모발손상을 최소화합니다.</div>
+    </div>
+
+    <div class="length-notice">
+      <div class="notice-title">* 모든 시술시 기장추가, 숱추가는 별도입니다.</div>
+      <div class="length-grid">
+        <div class="length-item"><span>Medium</span><span>20,000원</span></div>
+        <div class="length-item"><span>Medium Long</span><span>30,000원</span></div>
+        <div class="length-item"><span>Long</span><span>40,000원</span></div>
+        <div class="length-item"><span>LLong</span><span>50,000원</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-decor"></div>
+</div>
+
+<!-- PAGE 3: COLOR -->
+<div class="page page3">
+  <div class="header">
+    <h1>PRICE MENU</h1>
+    <p>미인헤어샵</p>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">COLOR</span>
+      <span class="category-note">컷추가 + 10,000</span>
+    </div>
+
+    <div class="col-header">
+      <span>베이직</span>
+      <span>프리미엄</span>
+    </div>
+
+    <div class="menu-item">
+      <span class="item-name">뿌리(~2cm)</span>
+      <span class="item-price">40.-</span>
+      <span class="item-price">50.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">Short</span>
+      <span class="item-price">50.-</span>
+      <span class="item-price">60.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">Medium</span>
+      <span class="item-price">70.-</span>
+      <span class="item-price">80.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">Medium Long</span>
+      <span class="item-price">80.-</span>
+      <span class="item-price">90.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">Long</span>
+      <span class="item-price">100.-</span>
+      <span class="item-price">110.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">LLong</span>
+      <span class="item-price">120.-</span>
+      <span class="item-price">130.-</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="menu-item">
+      <span class="item-name">메니큐어</span>
+      <span class="item-price">60,000~</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">탈색</span>
+      <span class="item-price">60,000~</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">특수컬러</span>
+      <span class="item-price">100,000~</span>
+    </div>
+
+    <div class="sub-note">+ 클리닉추가 20,000 / 30,000</div>
+
+    <div class="info-box">
+      <div class="info-title">프리미엄 케어컬러</div>
+      <div class="info-text">염색 시술후 모발에 남아있는 화학물질을 제거해 균일한 컬러와 윤기는 주며 손상을 최소화합니다.</div>
+    </div>
+
+    <div class="notice-box">
+      <div class="notice-text">* 뿌리염색 2cm 이상일 경우 Short 기장 금액과 동일합니다.</div>
+    </div>
+  </div>
+
+  <div class="bottom-decor"></div>
+</div>
+
+<!-- PAGE 4: SET MENU -->
+<div class="page page4">
+  <div class="header">
+    <h1>PRICE MENU</h1>
+    <p>미인헤어샵</p>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <span class="category-title">SET MENU</span>
+      <span class="category-note">드라이 + 10,000</span>
+      <span class="category-short">기본 Short 기장 기준 가격입니다.</span>
+    </div>
+
+    <div class="col-header">
+      <span class="col-original"></span>
+      <span>베이직</span>
+      <span>프리미엄</span>
+    </div>
+
+    <div class="menu-item">
+      <span class="item-name">일반펌+클리닉+컷</span>
+      <span class="item-price-original">98.-</span>
+      <span class="item-price">70.-</span>
+      <span class="item-price premium">80.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">열펌+클리닉+컷</span>
+      <span class="item-price-original">108.-</span>
+      <span class="item-price">80.-</span>
+      <span class="item-price premium">90.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">매직+클리닉+컷</span>
+      <span class="item-price-original">128.-</span>
+      <span class="item-price">100.-</span>
+      <span class="item-price premium">110.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">볼륨매직+클리닉+컷</span>
+      <span class="item-price-original">148.-</span>
+      <span class="item-price">120.-</span>
+      <span class="item-price premium">130.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">매직세팅+클리닉+컷</span>
+      <span class="item-price-original">168.-</span>
+      <span class="item-price">140.-</span>
+      <span class="item-price premium">150.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">뿌리염색+클리닉+컷</span>
+      <span class="item-price-original">98.-</span>
+      <span class="item-price">60.-</span>
+      <span class="item-price premium">80.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">전체염색+클리닉+컷</span>
+      <span class="item-price-original">108.-</span>
+      <span class="item-price">80.-</span>
+      <span class="item-price premium">90.-</span>
+    </div>
+    <div class="menu-item">
+      <span class="item-name">탈색+클리닉+컷</span>
+      <span class="item-price-original">118.-</span>
+      <span class="item-price">90.-</span>
+      <span class="item-price premium">100.-</span>
+    </div>
+
+    <div class="info-box">
+      <div class="info-title">클리닉 케어</div>
+      <div class="info-text">모발 손상모에 집중하여 모수질 뼈대부터 간충물질 모표피까지 빌드업하는 IN&amp;OUT 단백질 케어입니다.</div>
+    </div>
+
+    <div class="length-notice">
+      <div class="notice-title">* 모든 시술시 기장추가, 숱추가는 별도입니다.</div>
+      <div class="length-grid">
+        <div class="length-item"><span>Medium</span><span>20,000원</span></div>
+        <div class="length-item"><span>Medium Long</span><span>30,000원</span></div>
+        <div class="length-item"><span>Long</span><span>40,000원</span></div>
+        <div class="length-item"><span>LLong</span><span>50,000원</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-decor"></div>
+</div>
+
+</body>
+</html>
