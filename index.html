@@ -364,6 +364,147 @@
     background: linear-gradient(90deg, #2c2c2c, #7a6243, #2c2c2c);
   }
 
+  /* 모바일 반응형 */
+  @media screen and (max-width: 800px) {
+    body {
+      padding: 0;
+      gap: 0;
+      background: #ffffff;
+    }
+
+    .page {
+      width: 100%;
+      min-height: auto;
+      padding: 24px 20px;
+      box-shadow: none;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .page::before {
+      height: 4px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      letter-spacing: 4px;
+    }
+
+    .header {
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+    }
+
+    .category-title {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    .category-note {
+      font-size: 12px;
+    }
+
+    .category-short {
+      font-size: 11px;
+    }
+
+    .category-header {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .col-header span {
+      width: 70px;
+      font-size: 13px;
+    }
+
+    .col-header .col-original {
+      width: 55px;
+    }
+
+    .item-name {
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .page1 .item-name {
+      font-size: 15px;
+    }
+
+    .page1 .item-price {
+      font-size: 15px;
+    }
+
+    .item-price {
+      width: 70px;
+      font-size: 15px;
+    }
+
+    .item-price .won {
+      font-size: 10px;
+    }
+
+    .item-price-original {
+      width: 55px;
+      font-size: 14px;
+    }
+
+    .page4 .item-name {
+      font-size: 14px;
+    }
+
+    .page4 .item-price {
+      font-size: 14px;
+    }
+
+    .menu-item {
+      padding: 5px 4px;
+    }
+
+    .sub-note {
+      font-size: 12px;
+    }
+
+    .clinic-desc, .perm-desc, .length-notice, .info-box, .notice-box {
+      padding: 10px 14px;
+    }
+
+    .clinic-desc .desc-title,
+    .perm-desc .desc-title,
+    .info-box .info-title {
+      font-size: 14px;
+    }
+
+    .clinic-desc .desc-text,
+    .perm-desc .desc-text,
+    .info-box .info-text {
+      font-size: 13px;
+    }
+
+    .page3 .info-box .info-text {
+      font-size: 13px;
+    }
+
+    .notice-box .notice-text {
+      font-size: 13px;
+    }
+
+    .length-notice .notice-title {
+      font-size: 13px;
+    }
+
+    .length-grid {
+      gap: 2px 12px;
+    }
+
+    .length-grid .length-item {
+      font-size: 13px;
+    }
+
+    .bottom-decor {
+      height: 4px;
+    }
+  }
+
   @media print {
     body {
       background: white;
